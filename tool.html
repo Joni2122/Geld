@@ -1,218 +1,99 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Tool</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tool</title>
 
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700;900&display=swap" rel="stylesheet">
 </head>
 
 <body>
 
 <div class="background">
-    <div class="blur one"></div>
-    <div class="blur two"></div>
+  <div class="blur one"></div>
+  <div class="blur two"></div>
 </div>
 
 <header>
-    <div class="logo">AI<span>.</span></div>
-
-    <nav>
-        <a href="index.html">Home</a>
-        <a href="login.html">Login</a>
-    </nav>
-
-    <div class="headerActions">
-        <button class="ghostBtn" id="themeButton">🌙</button>
-    </div>
+  <div class="logo">AI<span>.</span></div>
+  <button class="login" onclick="window.location='index.html'">← Back</button>
 </header>
 
-<main class="toolPage">
+<main class="toolWrap">
 
-    <div class="toolPageTop">
-        <a class="backBtn" href="index.html">← Zurück</a>
+<div class="toolHeader">
+  <h1 id="title"></h1>
+</div>
 
-        <div>
-            <h1 id="toolName">Tool</h1>
-            <p id="toolDesc">Beschreibung</p>
-        </div>
-    </div>
+<div class="chatCard">
 
-    <div id="toolBox"></div>
+<div id="chat"></div>
+
+<div class="chatInput">
+  <input id="input" placeholder="Beschreibe etwas...">
+  <button id="send">Senden</button>
+</div>
+
+</div>
 
 </main>
 
 <script>
-const params = new URLSearchParams(window.location.search);
+const params = new URLSearchParams(location.search);
+const type = params.get("type") || "chat";
+document.getElementById("title").innerText = params.get("name") || "Tool";
 
-const toolName = params.get("name") || "Tool";
-const toolDesc = params.get("desc") || "";
-const toolType = params.get("type") || "chat";
+const chat = document.getElementById("chat");
+const input = document.getElementById("input");
+const send = document.getElementById("send");
 
-document.getElementById("toolName").innerText = toolName;
-document.getElementById("toolDesc").innerText = toolDesc;
-
-// THEME
-const themeButton = document.getElementById("themeButton");
-const themeKey = "ai-theme";
-
-function applyTheme(theme){
-    document.body.classList.toggle("lightTheme", theme === "light");
-    localStorage.setItem(themeKey, theme);
-    if(themeButton){
-        themeButton.textContent = theme === "light" ? "☀️" : "🌙";
-    }
+function add(t,c){
+  const d=document.createElement("div");
+  d.className=c;
+  d.innerText=t;
+  chat.appendChild(d);
+  chat.scrollTop=chat.scrollHeight;
 }
 
-applyTheme(localStorage.getItem(themeKey) || "dark");
+function bot(msg){
+  msg = msg.toLowerCase();
 
-if(themeButton){
-    themeButton.onclick = () => {
-        const current = localStorage.getItem(themeKey) || "dark";
-        applyTheme(current === "dark" ? "light" : "dark");
-    };
+  if(type==="game"){
+    return "🎮 Game Idee:\n\nMechanik: " + msg +
+    "\n\nCharaktere: Spieler + Gegner\nLevel: 3–5 Stages\nZiel: Score System + Progression\n\n💡 Optional: Multiplayer später";
+  }
+
+  if(type==="app"){
+    return "📱 App Idee:\n" + msg + "\n\nFeatures: Login, Profile, Datenbank";
+  }
+
+  if(type==="startup"){
+    return "🚀 Startup Idee:\n" + msg + "\n\nMonetarisierung: Ads + Premium";
+  }
+
+  if(msg.includes("code")) return "💻 Ich helfe dir beim Code!";
+  if(msg.includes("idee")) return "💡 Gute Idee!";
+  return "Ich habe das verstanden.";
 }
 
-const box = document.getElementById("toolBox");
+function sendMsg(){
+  const v=input.value.trim();
+  if(!v)return;
 
-/* ================= CHAT TOOL ================= */
+  add(v,"user");
+  input.value="";
 
-function renderChat(){
-    box.innerHTML = `
-        <div class="chatShell">
-
-            <div id="chat"></div>
-
-            <div class="inputBox">
-                <input id="input" placeholder="Schreib etwas...">
-                <button id="send">Senden</button>
-            </div>
-
-        </div>
-    `;
-
-    const chat = document.getElementById("chat");
-    const input = document.getElementById("input");
-    const send = document.getElementById("send");
-
-    function add(msg, type){
-        const div = document.createElement("div");
-        div.className = "msg " + type;
-        div.innerText = msg;
-        chat.appendChild(div);
-        chat.scrollTop = chat.scrollHeight;
-    }
-
-    function bot(msg){
-        const m = msg.toLowerCase();
-
-        if(m.includes("hallo")) return "Hey 👋";
-        if(m.includes("code")) return "Ich helfe dir beim Programmieren 💻";
-        if(m.includes("idee")) return "💡 Bau ein Tool mit Login + KI";
-        if(m.includes("website")) return "Du bist gerade dabei, eine SaaS Plattform zu bauen 😄";
-
-        return "Ich hab dich verstanden.";
-    }
-
-    function sendMsg(){
-        const val = input.value.trim();
-        if(!val) return;
-
-        add(val, "user");
-        input.value = "";
-
-        setTimeout(() => {
-            add(bot(val), "bot");
-        }, 300);
-    }
-
-    send.onclick = sendMsg;
-
-    input.addEventListener("keydown", e=>{
-        if(e.key === "Enter") sendMsg();
-    });
-
-    add("Hey! Schreib mir etwas 👋", "bot");
+  setTimeout(()=>{
+    add(bot(v),"bot");
+  },300);
 }
 
-/* ================= TEXT TOOLS ================= */
+send.onclick=sendMsg;
+input.addEventListener("keydown",e=>e.key==="Enter"&&sendMsg());
 
-function renderSimpleTool(title, placeholder, fn){
-
-    box.innerHTML = `
-        <div class="panel">
-
-            <textarea id="input" placeholder="${placeholder}"></textarea>
-
-            <button id="btn">${title}</button>
-
-            <div id="result" class="contactCard"></div>
-
-        </div>
-    `;
-
-    const input = document.getElementById("input");
-    const btn = document.getElementById("btn");
-    const result = document.getElementById("result");
-
-    btn.onclick = () => {
-        const val = input.value.trim();
-        if(!val){
-            result.innerText = "Bitte etwas eingeben.";
-            return;
-        }
-
-        result.innerText = fn(val);
-    };
-}
-
-/* ================= TOOL ROUTING ================= */
-
-if(toolType === "chat"){
-    renderChat();
-}
-
-else if(toolType === "image"){
-    renderSimpleTool("Bildidee erstellen", "Beschreibe dein Bild...", v =>
-        "Bildidee: " + v
-    );
-}
-
-else if(toolType === "code"){
-    renderSimpleTool("Code Hilfe", "Beschreibe dein Problem...", v =>
-        "Tipp: Zerlege '" + v + "' in kleine Schritte."
-    );
-}
-
-else if(toolType === "text"){
-    renderSimpleTool("Text verbessern", "Füge deinen Text ein...", v =>
-        "Verbesserte Version: " + v
-    );
-}
-
-else if(toolType === "idea"){
-    renderSimpleTool("Idee generieren", "Thema eingeben...", v =>
-        "Idee: Mach daraus eine App → " + v
-    );
-}
-
-else if(toolType === "logo"){
-    renderSimpleTool("Logo Idee", "Marke eingeben...", v =>
-        "Logo: modern + minimal für " + v
-    );
-}
-
-else if(toolType === "email"){
-    renderSimpleTool("E-Mail schreiben", "Worum geht es?", v =>
-        "E-Mail Struktur für: " + v
-    );
-}
-
-else{
-    renderChat();
-}
+add("Beschreibe dein Projekt 👋","bot");
 </script>
 
 </body>
