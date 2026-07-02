@@ -2,49 +2,13 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Tool</title>
-
     <link rel="stylesheet" href="style.css">
-
-    <style>
-        body{
-            margin:0;
-            font-family:Inter,sans-serif;
-            background:#05070d;
-            color:white;
-        }
-
-        .toolPage{
-            padding:120px 8%;
-        }
-
-        #toolBox{
-            margin-top:30px;
-        }
-
-        textarea{
-            width:100%;
-            height:120px;
-            padding:12px;
-            border-radius:12px;
-            border:none;
-            outline:none;
-            background:rgba(255,255,255,0.08);
-            color:white;
-            margin-bottom:10px;
-        }
-
-        button{
-            padding:12px 18px;
-            border:none;
-            border-radius:10px;
-            background:linear-gradient(135deg,#4f8cff,#6a5cff);
-            color:white;
-            cursor:pointer;
-        }
-    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 </head>
-
 <body>
 
 <div class="background">
@@ -54,110 +18,177 @@
 
 <header>
     <div class="logo">AI<span>.</span></div>
-    <nav>
-        <a href="index.html">Back</a>
-    </nav>
+    <div class="headerActions">
+        <button class="ghostBtn" id="themeButton">🌙</button>
+        <a class="backBtn" href="index.html">← Zurück</a>
+    </div>
 </header>
 
-<div class="toolPage">
-
-    <h1 id="toolName">Tool</h1>
-    <p id="toolDesc">Beschreibung</p>
+<main class="toolPage">
+    <div class="toolPageTop">
+        <div>
+            <h1 id="toolName">Tool</h1>
+            <p id="toolDesc">Beschreibung</p>
+        </div>
+    </div>
 
     <div id="toolBox"></div>
-
-</div>
+</main>
 
 <script>
 const params = new URLSearchParams(window.location.search);
+const toolName = params.get("name") || "Tool";
+const toolDesc = params.get("desc") || "";
+const toolType = params.get("type") || "chat";
 
-const name = params.get("name") || "Tool";
-const desc = params.get("desc") || "";
+document.getElementById("toolName").innerText = toolName;
+document.getElementById("toolDesc").innerText = toolDesc;
 
-document.getElementById("toolName").innerText = name;
-document.getElementById("toolDesc").innerText = desc;
+const themeButton = document.getElementById("themeButton");
+const themeKey = "ai-toolbox-theme";
+
+function applyTheme(theme) {
+    document.body.classList.toggle("lightTheme", theme === "light");
+    localStorage.setItem(themeKey, theme);
+    if (themeButton) {
+        themeButton.textContent = theme === "light" ? "☀️" : "🌙";
+    }
+}
+applyTheme(localStorage.getItem(themeKey) || "dark");
+
+if (themeButton) {
+    themeButton.addEventListener("click", () => {
+        const current = localStorage.getItem(themeKey) || "dark";
+        applyTheme(current === "dark" ? "light" : "dark");
+    });
+}
 
 const box = document.getElementById("toolBox");
 
-// Chat UI
-box.innerHTML = `
-  <div id="chat" style="
-    background:rgba(255,255,255,0.05);
-    padding:15px;
-    border-radius:15px;
-    height:320px;
-    overflow:auto;
-    margin-bottom:15px;
-  "></div>
-
-  <div style="display:flex; gap:10px;">
-    <input id="input" placeholder="Schreib etwas..." style="
-      flex:1;
-      padding:12px;
-      border-radius:10px;
-      border:none;
-      outline:none;
-      background:rgba(255,255,255,0.08);
-      color:white;
-    ">
-
-    <button id="send">Senden</button>
-  </div>
-`;
-
-const chat = document.getElementById("chat");
-const input = document.getElementById("input");
-const send = document.getElementById("send");
-
-function addMessage(text, fromUser = true) {
-    const div = document.createElement("div");
-
-    div.style.margin = "8px 0";
-    div.style.padding = "10px";
-    div.style.borderRadius = "10px";
-    div.style.maxWidth = "80%";
-
-    div.style.background = fromUser
-        ? "rgba(79,140,255,0.3)"
-        : "rgba(255,255,255,0.1)";
-
-    div.style.marginLeft = fromUser ? "auto" : "0";
-
-    div.innerText = text;
-
-    chat.appendChild(div);
-    chat.scrollTop = chat.scrollHeight;
+function esc(text){
+    return String(text).replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;");
 }
 
-// Fake KI
-function botReply(msg) {
-    let reply = "Ich verstehe dich.";
+function renderChatTool() {
+    box.innerHTML = `
+        <div class="chatShell">
+            <div id="chat"></div>
 
-    if (msg.toLowerCase().includes("hallo")) {
-        reply = "Hey 👋 wie kann ich helfen?";
-    }
-    else if (msg.toLowerCase().includes("code")) {
-        reply = "Ich helfe dir beim Programmieren 💻";
-    }
-    else if (msg.toLowerCase().includes("idee")) {
-        reply = "💡 Idee: Bau eine KI-Webseite wie diese!";
+            <div class="inputBox">
+                <input id="input" placeholder="Schreib etwas...">
+                <button id="send">Senden</button>
+            </div>
+        </div>
+    `;
+
+    const chat = document.getElementById("chat");
+    const input = document.getElementById("input");
+    const send = document.getElementById("send");
+
+    function addMessage(text, type) {
+        const div = document.createElement("div");
+        div.className = `msg ${type}`;
+        div.innerText = text;
+        chat.appendChild(div);
+        chat.scrollTop = chat.scrollHeight;
     }
 
-    setTimeout(() => addMessage(reply, false), 600);
+    function reply(msg) {
+        const lower = msg.toLowerCase();
+
+        if (lower.includes("hallo") || lower.includes("hi")) return "Hey 👋 Wie kann ich dir helfen?";
+        if (lower.includes("code")) return "Klar 💻 Ich helfe dir gern beim Programmieren.";
+        if (lower.includes("idee")) return "💡 Idee: Bau ein kleines Tool, das eine echte Funktion hat.";
+        if (lower.includes("website")) return "Du kannst die Seite später mit Login, Favoriten und echten KI-Funktionen erweitern.";
+        return "Ich hab dich verstanden.";
+    }
+
+    function sendMessage() {
+        const msg = input.value.trim();
+        if (!msg) return;
+
+        addMessage(msg, "user");
+        input.value = "";
+
+        setTimeout(() => {
+            addMessage(reply(msg), "bot");
+        }, 350);
+    }
+
+    send.addEventListener("click", sendMessage);
+    input.addEventListener("keydown", e => {
+        if (e.key === "Enter") sendMessage();
+    });
+
+    addMessage("Hallo! Schreib mir etwas.", "bot");
 }
 
-send.onclick = () => {
-    if (!input.value.trim()) return;
+function renderTextTool(label, placeholder) {
+    box.innerHTML = `
+        <div class="panel">
+            <textarea id="toolInput" placeholder="${esc(placeholder)}"></textarea>
+            <button id="toolAction">${esc(label)}</button>
+            <div id="toolResult" class="contactCard" style="min-height:120px;"></div>
+        </div>
+    `;
 
-    addMessage(input.value, true);
-    botReply(input.value);
+    const input = document.getElementById("toolInput");
+    const action = document.getElementById("toolAction");
+    const result = document.getElementById("toolResult");
 
-    input.value = "";
-};
+    action.addEventListener("click", () => {
+        const value = input.value.trim();
+        if (!value) {
+            result.innerHTML = `<p>Bitte zuerst etwas eingeben.</p>`;
+            return;
+        }
 
-input.addEventListener("keydown", e => {
-    if (e.key === "Enter") send.click();
-});
+        result.innerHTML = `<p>${esc(makeReply(toolType, value))}</p>`;
+    });
+}
+
+function makeReply(type, value) {
+    const lower = value.toLowerCase();
+
+    switch (type) {
+        case "image":
+            return `Bildidee erstellt: "${value}"`;
+        case "code":
+            return `Code-Tipp: Zerlege dein Problem in kleine Funktionen. Input war: "${value}"`;
+        case "text":
+            return `Überarbeitete Version: "${value}" → klarer, kürzer und sauberer formuliert.`;
+        case "seo":
+            return `SEO-Hinweis: Verwende dein wichtigstes Keyword im Titel und in den ersten 100 Wörtern.`;
+        case "idea":
+            return `Neue Idee: Mach aus "${value}" ein kleines Tool mit Favoriten und Suche.`;
+        case "logo":
+            return `Logo-Idee: Modern, minimal, dunkler Hintergrund, heller Neon-Akzent für "${value}".`;
+        case "email":
+            return `E-Mail-Vorschlag: Freundlich starten, kurz erklären, klare Bitte am Ende.`;
+        default:
+            return lower.includes("hallo") ? "Hey 👋" : `Antwort zu: ${value}`;
+    }
+}
+
+if (toolType === "chat") {
+    renderChatTool();
+} else if (toolType === "image") {
+    renderTextTool("Bildidee generieren", "Beschreibe dein Bild...");
+} else if (toolType === "code") {
+    renderTextTool("Code-Hilfe holen", "Beschreibe dein Programmierproblem...");
+} else if (toolType === "text") {
+    renderTextTool("Text verbessern", "Füge deinen Text ein...");
+} else if (toolType === "seo") {
+    renderTextTool("SEO prüfen", "Füge deinen Text oder deine URL-Beschreibung ein...");
+} else if (toolType === "idea") {
+    renderTextTool("Ideen generieren", "Schreibe dein Thema...");
+} else if (toolType === "logo") {
+    renderTextTool("Logo-Idee erstellen", "Schreibe deine Marke oder deinen Namen...");
+} else if (toolType === "email") {
+    renderTextTool("E-Mail schreiben", "Schreibe kurz, worum es geht...");
+} else {
+    renderChatTool();
+}
 </script>
 
 </body>
