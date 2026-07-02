@@ -3,14 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Toolbox</title>
-
+    <title>AI Toolbox Hub</title>
     <link rel="stylesheet" href="style.css">
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 </head>
-
 <body>
 
 <div class="background">
@@ -19,121 +17,98 @@
 </div>
 
 <header>
-
-    <div class="logo">
-        AI<span>.</span>
-    </div>
+    <div class="logo">AI<span>.</span></div>
 
     <nav>
-
-        <a href="#">Home</a>
-        <a href="#">Tools</a>
-        <a href="#">Preise</a>
-        <a href="#">Kontakt</a>
-
+        <a href="#home">Home</a>
+        <a href="#tools">Tools</a>
+        <a href="#features">Features</a>
+        <a href="#contact">Kontakt</a>
     </nav>
 
-    <button class="login">
-        Login
-    </button>
-
+    <div class="headerActions">
+        <button class="ghostBtn" id="themeButton">🌙</button>
+        <button class="login" id="loginButton">Login</button>
+    </div>
 </header>
 
-<section class="hero">
+<main>
 
+<section class="hero" id="home">
     <div class="heroLeft">
+        <p class="badge">🚀 Moderne KI-Tools an einem Ort</p>
 
-        <p class="badge">
-            🚀 Über 500 KI-Tools
-        </p>
-
-        <h1>
-
-            Die modernste
-            <span>KI-Plattform</span>
-            an einem Ort.
-
-        </h1>
+        <h1>Die smarte<br><span>KI-Plattform</span><br>für Ideen, Texte und mehr.</h1>
 
         <p class="text">
-
-            Entdecke KI-Tools, speichere Favoriten,
-            finde neue Möglichkeiten und arbeite schneller
-            als je zuvor.
-
+            Entdecke KI-Tools, teste Funktionen direkt im Browser und arbeite schneller
+            mit einer sauberen, modernen Oberfläche.
         </p>
 
         <div class="buttons">
-
-            <button class="primary">
-                Kostenlos starten
-            </button>
-
-            <button class="secondary">
-                Mehr erfahren
-            </button>
-
+            <button class="primary" id="exploreTools">Tools öffnen</button>
+            <button class="secondary" id="learnMore">Mehr sehen</button>
         </div>
-
     </div>
 
     <div class="heroRight">
-
         <div class="glass">
+            <p class="miniTitle">Beliebte Tools</p>
+            <div class="miniList" id="miniList"></div>
+        </div>
+    </div>
+</section>
 
-            <h3>Beliebte Tools</h3>
+<section class="toolSection" id="tools">
+    <div class="sectionHeader">
+        <h2>Tools</h2>
+        <p>Suche ein Tool und öffne es mit einem Klick.</p>
+    </div>
 
-            <div class="tool">
-                🤖 Chat Assistant
-            </div>
+    <div class="searchWrap">
+        <input id="searchInput" type="text" placeholder="Tool suchen...">
+    </div>
 
-            <div class="tool">
-                🎨 Image Generator
-            </div>
+    <div id="toolContainer" class="toolGrid"></div>
+</section>
 
-            <div class="tool">
-                💻 Code Helper
-            </div>
+<section class="featuresSection" id="features">
+    <div class="sectionHeader">
+        <h2>Features</h2>
+        <p>Alles ist auf Übersicht und späteres Wachstum ausgelegt.</p>
+    </div>
 
-            <div class="tool">
-                ✍️ Text Writer
-            </div>
-
+    <div class="cards">
+        <div class="card">
+            <h3>Modernes Design</h3>
+            <p>Dark UI, Glas-Look und weiche Animationen.</p>
         </div>
 
-    </div>
+        <div class="card">
+            <h3>Mobile freundlich</h3>
+            <p>Sieht auf Handy und PC gut aus.</p>
+        </div>
 
+        <div class="card">
+            <h3>Direkt nutzbar</h3>
+            <p>Alle Tools öffnen sich direkt im Browser.</p>
+        </div>
+    </div>
 </section>
 
-<section class="cards">
-
-    <div class="card">
-
-        <h2>500+</h2>
-
-        <p>KI-Tools</p>
-
+<section class="contactSection" id="contact">
+    <div class="sectionHeader">
+        <h2>Kontakt</h2>
+        <p>Später kannst du hier Feedback, E-Mail oder Support einbauen.</p>
     </div>
 
-    <div class="card">
-
-        <h2>100K+</h2>
-
-        <p>Nutzer</p>
-
+    <div class="contactCard">
+        <p>AI Toolbox Hub ist jetzt als Basis aufgebaut. Danach können wir Login, Favoriten und echte KI-Funktionen hinzufügen.</p>
     </div>
-
-    <div class="card">
-
-        <h2>24/7</h2>
-
-        <p>Verfügbar</p>
-
-    </div>
-
 </section>
+
+</main>
 
 <script src="script.js"></script>
-
 </body>
 </html>
