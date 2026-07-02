@@ -1,114 +1,96 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Toolbox Hub</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Tools Hub</title>
+
+<link rel="stylesheet" href="style.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 </head>
+
 <body>
 
 <div class="background">
-    <div class="blur one"></div>
-    <div class="blur two"></div>
+  <div class="blur one"></div>
+  <div class="blur two"></div>
 </div>
 
 <header>
-    <div class="logo">AI<span>.</span></div>
+  <div class="logo">AI<span>.</span></div>
 
-    <nav>
-        <a href="#home">Home</a>
-        <a href="#tools">Tools</a>
-        <a href="#features">Features</a>
-        <a href="#contact">Kontakt</a>
-    </nav>
+  <nav>
+    <a href="#tools">Tools</a>
+    <a href="login.html">Login</a>
+  </nav>
 
-    <div class="headerActions">
-        <button class="ghostBtn" id="themeButton">🌙</button>
-        <button class="login" id="loginButton">Login</button>
-    </div>
+  <button class="login" onclick="window.location='login.html'">Start</button>
 </header>
 
-<main>
+<section class="heroClean">
 
-<section class="hero" id="home">
-    <div class="heroLeft">
-        <p class="badge">🚀 Moderne KI-Tools an einem Ort</p>
+  <div class="heroText">
+    <h1>KI Tool<br><span>Plattform</span></h1>
 
-        <h1>Die smarte<br><span>KI-Plattform</span><br>für Ideen, Texte und mehr.</h1>
+    <p>
+      Erstelle Ideen, Texte, Games, Code und mehr mit KI-gestützten Tools.
+    </p>
 
-        <p class="text">
-            Entdecke KI-Tools, teste Funktionen direkt im Browser und arbeite schneller
-            mit einer sauberen, modernen Oberfläche.
-        </p>
-
-        <div class="buttons">
-            <button class="primary" id="exploreTools">Tools öffnen</button>
-            <button class="secondary" id="learnMore">Mehr sehen</button>
-        </div>
+    <div class="heroButtons">
+      <button onclick="document.getElementById('tools').scrollIntoView()">Tools öffnen</button>
+      <button class="ghost" onclick="window.location='login.html'">Login</button>
     </div>
+  </div>
 
-    <div class="heroRight">
-        <div class="glass">
-            <p class="miniTitle">Beliebte Tools</p>
-            <div class="miniList" id="miniList"></div>
-        </div>
-    </div>
 </section>
 
-<section class="toolSection" id="tools">
-    <div class="sectionHeader">
-        <h2>Tools</h2>
-        <p>Suche ein Tool und öffne es mit einem Klick.</p>
-    </div>
+<section id="tools" class="toolsSection">
 
-    <div class="searchWrap">
-        <input id="searchInput" type="text" placeholder="Tool suchen...">
-    </div>
+<h2>Alle KI Tools</h2>
 
-    <div id="toolContainer" class="toolGrid"></div>
+<div class="toolsGrid">
+
+<div class="toolCard" onclick="openTool('Chat KI','chat')">
+🤖<h3>AI Chat</h3><p>Normale KI Gespräche</p>
+</div>
+
+<div class="toolCard" onclick="openTool('Code Helper','code')">
+💻<h3>Code Generator</h3><p>Hilft beim Programmieren</p>
+</div>
+
+<div class="toolCard" onclick="openTool('Text Writer','text')">
+✍️<h3>Text Tool</h3><p>Texte verbessern</p>
+</div>
+
+<div class="toolCard" onclick="openTool('Idea Generator','idea')">
+💡<h3>Ideen</h3><p>Neue Ideen erzeugen</p>
+</div>
+
+<div class="toolCard" onclick="openTool('Game Creator','game')">
+🎮<h3>Game Creator</h3><p>Spiel Idee + Struktur + Code</p>
+</div>
+
+<div class="toolCard" onclick="openTool('App Builder','app')">
+📱<h3>App Builder</h3><p>App Konzepte erstellen</p>
+</div>
+
+<div class="toolCard" onclick="openTool('Startup Maker','startup')">
+🚀<h3>Startup Tool</h3><p>Business Ideen bauen</p>
+</div>
+
+<div class="toolCard" onclick="openTool('Logo Maker','logo')">
+🎨<h3>Logo Generator</h3><p>Logo Ideen erstellen</p>
+</div>
+
+</div>
+
 </section>
 
-<section class="featuresSection" id="features">
-    <div class="sectionHeader">
-        <h2>Features</h2>
-        <p>Alles ist auf Übersicht und späteres Wachstum ausgelegt.</p>
-    </div>
+<script>
+function openTool(name,type){
+  window.location = `tool.html?name=${encodeURIComponent(name)}&type=${type}`;
+}
+</script>
 
-    <div class="cards">
-        <div class="card">
-            <h3>Modernes Design</h3>
-            <p>Dark UI, Glas-Look und weiche Animationen.</p>
-        </div>
-
-        <div class="card">
-            <h3>Mobile freundlich</h3>
-            <p>Sieht auf Handy und PC gut aus.</p>
-        </div>
-
-        <div class="card">
-            <h3>Direkt nutzbar</h3>
-            <p>Alle Tools öffnen sich direkt im Browser.</p>
-        </div>
-    </div>
-</section>
-
-<section class="contactSection" id="contact">
-    <div class="sectionHeader">
-        <h2>Kontakt</h2>
-        <p>Später kannst du hier Feedback, E-Mail oder Support einbauen.</p>
-    </div>
-
-    <div class="contactCard">
-        <p>AI Toolbox Hub ist jetzt als Basis aufgebaut. Danach können wir Login, Favoriten und echte KI-Funktionen hinzufügen.</p>
-    </div>
-</section>
-
-</main>
-
-<script src="script.js"></script>
 </body>
 </html>
