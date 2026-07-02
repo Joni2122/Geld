@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Tool</title>
+
     <link rel="stylesheet" href="style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 </head>
+
 <body>
 
 <div class="background">
@@ -18,14 +18,22 @@
 
 <header>
     <div class="logo">AI<span>.</span></div>
+
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="login.html">Login</a>
+    </nav>
+
     <div class="headerActions">
         <button class="ghostBtn" id="themeButton">🌙</button>
-        <a class="backBtn" href="index.html">← Zurück</a>
     </div>
 </header>
 
 <main class="toolPage">
+
     <div class="toolPageTop">
+        <a class="backBtn" href="index.html">← Zurück</a>
+
         <div>
             <h1 id="toolName">Tool</h1>
             <p id="toolDesc">Beschreibung</p>
@@ -33,10 +41,12 @@
     </div>
 
     <div id="toolBox"></div>
+
 </main>
 
 <script>
 const params = new URLSearchParams(window.location.search);
+
 const toolName = params.get("name") || "Tool";
 const toolDesc = params.get("desc") || "";
 const toolType = params.get("type") || "chat";
@@ -44,40 +54,42 @@ const toolType = params.get("type") || "chat";
 document.getElementById("toolName").innerText = toolName;
 document.getElementById("toolDesc").innerText = toolDesc;
 
+// THEME
 const themeButton = document.getElementById("themeButton");
-const themeKey = "ai-toolbox-theme";
+const themeKey = "ai-theme";
 
-function applyTheme(theme) {
+function applyTheme(theme){
     document.body.classList.toggle("lightTheme", theme === "light");
     localStorage.setItem(themeKey, theme);
-    if (themeButton) {
+    if(themeButton){
         themeButton.textContent = theme === "light" ? "☀️" : "🌙";
     }
 }
+
 applyTheme(localStorage.getItem(themeKey) || "dark");
 
-if (themeButton) {
-    themeButton.addEventListener("click", () => {
+if(themeButton){
+    themeButton.onclick = () => {
         const current = localStorage.getItem(themeKey) || "dark";
         applyTheme(current === "dark" ? "light" : "dark");
-    });
+    };
 }
 
 const box = document.getElementById("toolBox");
 
-function esc(text){
-    return String(text).replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;");
-}
+/* ================= CHAT TOOL ================= */
 
-function renderChatTool() {
+function renderChat(){
     box.innerHTML = `
         <div class="chatShell">
+
             <div id="chat"></div>
 
             <div class="inputBox">
                 <input id="input" placeholder="Schreib etwas...">
                 <button id="send">Senden</button>
             </div>
+
         </div>
     `;
 
@@ -85,109 +97,121 @@ function renderChatTool() {
     const input = document.getElementById("input");
     const send = document.getElementById("send");
 
-    function addMessage(text, type) {
+    function add(msg, type){
         const div = document.createElement("div");
-        div.className = `msg ${type}`;
-        div.innerText = text;
+        div.className = "msg " + type;
+        div.innerText = msg;
         chat.appendChild(div);
         chat.scrollTop = chat.scrollHeight;
     }
 
-    function reply(msg) {
-        const lower = msg.toLowerCase();
+    function bot(msg){
+        const m = msg.toLowerCase();
 
-        if (lower.includes("hallo") || lower.includes("hi")) return "Hey 👋 Wie kann ich dir helfen?";
-        if (lower.includes("code")) return "Klar 💻 Ich helfe dir gern beim Programmieren.";
-        if (lower.includes("idee")) return "💡 Idee: Bau ein kleines Tool, das eine echte Funktion hat.";
-        if (lower.includes("website")) return "Du kannst die Seite später mit Login, Favoriten und echten KI-Funktionen erweitern.";
+        if(m.includes("hallo")) return "Hey 👋";
+        if(m.includes("code")) return "Ich helfe dir beim Programmieren 💻";
+        if(m.includes("idee")) return "💡 Bau ein Tool mit Login + KI";
+        if(m.includes("website")) return "Du bist gerade dabei, eine SaaS Plattform zu bauen 😄";
+
         return "Ich hab dich verstanden.";
     }
 
-    function sendMessage() {
-        const msg = input.value.trim();
-        if (!msg) return;
+    function sendMsg(){
+        const val = input.value.trim();
+        if(!val) return;
 
-        addMessage(msg, "user");
+        add(val, "user");
         input.value = "";
 
         setTimeout(() => {
-            addMessage(reply(msg), "bot");
-        }, 350);
+            add(bot(val), "bot");
+        }, 300);
     }
 
-    send.addEventListener("click", sendMessage);
-    input.addEventListener("keydown", e => {
-        if (e.key === "Enter") sendMessage();
+    send.onclick = sendMsg;
+
+    input.addEventListener("keydown", e=>{
+        if(e.key === "Enter") sendMsg();
     });
 
-    addMessage("Hallo! Schreib mir etwas.", "bot");
+    add("Hey! Schreib mir etwas 👋", "bot");
 }
 
-function renderTextTool(label, placeholder) {
+/* ================= TEXT TOOLS ================= */
+
+function renderSimpleTool(title, placeholder, fn){
+
     box.innerHTML = `
         <div class="panel">
-            <textarea id="toolInput" placeholder="${esc(placeholder)}"></textarea>
-            <button id="toolAction">${esc(label)}</button>
-            <div id="toolResult" class="contactCard" style="min-height:120px;"></div>
+
+            <textarea id="input" placeholder="${placeholder}"></textarea>
+
+            <button id="btn">${title}</button>
+
+            <div id="result" class="contactCard"></div>
+
         </div>
     `;
 
-    const input = document.getElementById("toolInput");
-    const action = document.getElementById("toolAction");
-    const result = document.getElementById("toolResult");
+    const input = document.getElementById("input");
+    const btn = document.getElementById("btn");
+    const result = document.getElementById("result");
 
-    action.addEventListener("click", () => {
-        const value = input.value.trim();
-        if (!value) {
-            result.innerHTML = `<p>Bitte zuerst etwas eingeben.</p>`;
+    btn.onclick = () => {
+        const val = input.value.trim();
+        if(!val){
+            result.innerText = "Bitte etwas eingeben.";
             return;
         }
 
-        result.innerHTML = `<p>${esc(makeReply(toolType, value))}</p>`;
-    });
+        result.innerText = fn(val);
+    };
 }
 
-function makeReply(type, value) {
-    const lower = value.toLowerCase();
+/* ================= TOOL ROUTING ================= */
 
-    switch (type) {
-        case "image":
-            return `Bildidee erstellt: "${value}"`;
-        case "code":
-            return `Code-Tipp: Zerlege dein Problem in kleine Funktionen. Input war: "${value}"`;
-        case "text":
-            return `Überarbeitete Version: "${value}" → klarer, kürzer und sauberer formuliert.`;
-        case "seo":
-            return `SEO-Hinweis: Verwende dein wichtigstes Keyword im Titel und in den ersten 100 Wörtern.`;
-        case "idea":
-            return `Neue Idee: Mach aus "${value}" ein kleines Tool mit Favoriten und Suche.`;
-        case "logo":
-            return `Logo-Idee: Modern, minimal, dunkler Hintergrund, heller Neon-Akzent für "${value}".`;
-        case "email":
-            return `E-Mail-Vorschlag: Freundlich starten, kurz erklären, klare Bitte am Ende.`;
-        default:
-            return lower.includes("hallo") ? "Hey 👋" : `Antwort zu: ${value}`;
-    }
+if(toolType === "chat"){
+    renderChat();
 }
 
-if (toolType === "chat") {
-    renderChatTool();
-} else if (toolType === "image") {
-    renderTextTool("Bildidee generieren", "Beschreibe dein Bild...");
-} else if (toolType === "code") {
-    renderTextTool("Code-Hilfe holen", "Beschreibe dein Programmierproblem...");
-} else if (toolType === "text") {
-    renderTextTool("Text verbessern", "Füge deinen Text ein...");
-} else if (toolType === "seo") {
-    renderTextTool("SEO prüfen", "Füge deinen Text oder deine URL-Beschreibung ein...");
-} else if (toolType === "idea") {
-    renderTextTool("Ideen generieren", "Schreibe dein Thema...");
-} else if (toolType === "logo") {
-    renderTextTool("Logo-Idee erstellen", "Schreibe deine Marke oder deinen Namen...");
-} else if (toolType === "email") {
-    renderTextTool("E-Mail schreiben", "Schreibe kurz, worum es geht...");
-} else {
-    renderChatTool();
+else if(toolType === "image"){
+    renderSimpleTool("Bildidee erstellen", "Beschreibe dein Bild...", v =>
+        "Bildidee: " + v
+    );
+}
+
+else if(toolType === "code"){
+    renderSimpleTool("Code Hilfe", "Beschreibe dein Problem...", v =>
+        "Tipp: Zerlege '" + v + "' in kleine Schritte."
+    );
+}
+
+else if(toolType === "text"){
+    renderSimpleTool("Text verbessern", "Füge deinen Text ein...", v =>
+        "Verbesserte Version: " + v
+    );
+}
+
+else if(toolType === "idea"){
+    renderSimpleTool("Idee generieren", "Thema eingeben...", v =>
+        "Idee: Mach daraus eine App → " + v
+    );
+}
+
+else if(toolType === "logo"){
+    renderSimpleTool("Logo Idee", "Marke eingeben...", v =>
+        "Logo: modern + minimal für " + v
+    );
+}
+
+else if(toolType === "email"){
+    renderSimpleTool("E-Mail schreiben", "Worum geht es?", v =>
+        "E-Mail Struktur für: " + v
+    );
+}
+
+else{
+    renderChat();
 }
 </script>
 
