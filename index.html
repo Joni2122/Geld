@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -6,15 +7,10 @@
 <title>AI Tools Hub</title>
 
 <link rel="stylesheet" href="style.css">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 </head>
 
 <body>
-
-<div class="background">
-  <div class="blur one"></div>
-  <div class="blur two"></div>
-</div>
 
 <header>
   <div class="logo">AI<span>.</span></div>
@@ -24,71 +20,43 @@
     <a href="login.html">Login</a>
   </nav>
 
-  <button class="login" onclick="window.location='login.html'">Start</button>
+  <button class="btnPrimary" onclick="location.href='login.html'">Start</button>
 </header>
 
-<section class="heroClean">
+<section class="hero">
 
-  <div class="heroText">
-    <h1>KI Tool<br><span>Plattform</span></h1>
+  <h1>Baue Ideen mit KI</h1>
+  <p>Chat, Code, Games, Apps und Tools – alles in einem System.</p>
 
-    <p>
-      Erstelle Ideen, Texte, Games, Code und mehr mit KI-gestützten Tools.
-    </p>
+</section>
 
-    <div class="heroButtons">
-      <button onclick="document.getElementById('tools').scrollIntoView()">Tools öffnen</button>
-      <button class="ghost" onclick="window.location='login.html'">Login</button>
-    </div>
+<section id="tools" class="grid">
+
+  <div class="card" onclick="go('Chat Assistant','chat')">
+    🤖<h3>AI Chat</h3><p>Konversation mit KI</p>
+  </div>
+
+  <div class="card" onclick="go('Code Helper','code')">
+    💻<h3>Code Tool</h3><p>Programmieren lassen</p>
+  </div>
+
+  <div class="card" onclick="go('Game Creator','game')">
+    🎮<h3>Game Creator</h3><p>Spiel-Ideen + Struktur</p>
+  </div>
+
+  <div class="card" onclick="go('Startup Builder','startup')">
+    🚀<h3>Startup Tool</h3><p>Business Ideen</p>
+  </div>
+
+  <div class="card" onclick="go('App Builder','app')">
+    📱<h3>App Builder</h3><p>App Konzepte</p>
   </div>
 
 </section>
 
-<section id="tools" class="toolsSection">
-
-<h2>Alle KI Tools</h2>
-
-<div class="toolsGrid">
-
-<div class="toolCard" onclick="openTool('Chat KI','chat')">
-🤖<h3>AI Chat</h3><p>Normale KI Gespräche</p>
-</div>
-
-<div class="toolCard" onclick="openTool('Code Helper','code')">
-💻<h3>Code Generator</h3><p>Hilft beim Programmieren</p>
-</div>
-
-<div class="toolCard" onclick="openTool('Text Writer','text')">
-✍️<h3>Text Tool</h3><p>Texte verbessern</p>
-</div>
-
-<div class="toolCard" onclick="openTool('Idea Generator','idea')">
-💡<h3>Ideen</h3><p>Neue Ideen erzeugen</p>
-</div>
-
-<div class="toolCard" onclick="openTool('Game Creator','game')">
-🎮<h3>Game Creator</h3><p>Spiel Idee + Struktur + Code</p>
-</div>
-
-<div class="toolCard" onclick="openTool('App Builder','app')">
-📱<h3>App Builder</h3><p>App Konzepte erstellen</p>
-</div>
-
-<div class="toolCard" onclick="openTool('Startup Maker','startup')">
-🚀<h3>Startup Tool</h3><p>Business Ideen bauen</p>
-</div>
-
-<div class="toolCard" onclick="openTool('Logo Maker','logo')">
-🎨<h3>Logo Generator</h3><p>Logo Ideen erstellen</p>
-</div>
-
-</div>
-
-</section>
-
 <script>
-function openTool(name,type){
-  window.location = `tool.html?name=${encodeURIComponent(name)}&type=${type}`;
+function go(name,type){
+  location.href = `tool.html?name=${encodeURIComponent(name)}&type=${type}`;
 }
 </script>
 
