@@ -48,430 +48,286 @@ body{
 }
 
 @keyframes float{
-
-    0%{
-        transform:translateY(0px);
-    }
-
-    50%{
-        transform:translateY(-50px);
-    }
-
-    100%{
-        transform:translateY(0px);
-    }
-
+    0%{transform:translateY(0px);}
+    50%{transform:translateY(-50px);}
+    100%{transform:translateY(0px);}
 }
 
 /* ---------- Header ---------- */
 
 header{
-
     width:100%;
     display:flex;
     justify-content:space-between;
     align-items:center;
-
     padding:25px 8%;
-
     position:fixed;
     top:0;
-
     backdrop-filter:blur(18px);
     background:rgba(8,10,18,.45);
-
     border-bottom:1px solid rgba(255,255,255,.08);
-
     z-index:999;
-
 }
 
 .logo{
-
     font-size:33px;
     font-weight:800;
-
 }
 
 .logo span{
-
     color:#4f8cff;
-
 }
 
 nav{
-
     display:flex;
     gap:35px;
-
 }
 
 nav a{
-
     color:white;
     text-decoration:none;
     transition:.3s;
     font-weight:500;
-
 }
 
 nav a:hover{
-
     color:#4f8cff;
-
 }
 
 .login{
-
     padding:12px 22px;
-
     border:none;
-
     border-radius:15px;
-
     cursor:pointer;
-
     background:linear-gradient(135deg,#4f8cff,#6a5cff);
-
     color:white;
-
     font-weight:600;
-
     transition:.3s;
-
 }
 
 .login:hover{
-
     transform:translateY(-3px);
-
-    box-shadow:0 0 30px #4f8cff66;
-
 }
 
 /* ---------- Hero ---------- */
 
 .hero{
-
     min-height:100vh;
-
     display:flex;
-
     align-items:center;
-
     justify-content:space-between;
-
     gap:60px;
-
     padding:0 8%;
-
 }
 
 .heroLeft{
-
     width:55%;
+}
 
+.heroRight{
+    width:45%;
+    display:flex;
+    justify-content:center;
 }
 
 .badge{
-
     display:inline-block;
-
     background:rgba(255,255,255,.08);
-
     border:1px solid rgba(255,255,255,.1);
-
     padding:10px 18px;
-
     border-radius:100px;
-
     margin-bottom:30px;
-
 }
 
 .hero h1{
-
     font-size:72px;
-
     line-height:1.1;
-
     margin-bottom:25px;
-
 }
 
 .hero h1 span{
-
     background:linear-gradient(90deg,#6ea8ff,#53ffe3);
-
     -webkit-background-clip:text;
-
     color:transparent;
-
 }
 
 .text{
-
     font-size:20px;
-
     color:#b9bfd1;
-
     max-width:650px;
-
     line-height:1.8;
-
 }
 
 .buttons{
-
     display:flex;
-
     gap:18px;
-
     margin-top:40px;
-
 }
 
 .primary{
-
     background:linear-gradient(135deg,#4f8cff,#6a5cff);
-
     color:white;
-
     border:none;
-
     padding:18px 34px;
-
     border-radius:18px;
-
     cursor:pointer;
-
     font-size:17px;
-
-    transition:.3s;
-
-}
-
-.primary:hover{
-
-    transform:translateY(-5px);
-
-    box-shadow:0 0 40px #4f8cff66;
-
 }
 
 .secondary{
-
     background:transparent;
-
     color:white;
-
     border:1px solid rgba(255,255,255,.15);
-
     padding:18px 34px;
-
     border-radius:18px;
-
-    cursor:pointer;
-
-    transition:.3s;
-
 }
 
-.secondary:hover{
-
-    background:rgba(255,255,255,.05);
-
-}
-
-/* ---------- Glass Card ---------- */
-
-.heroRight{
-
-    width:45%;
-
-    display:flex;
-
-    justify-content:center;
-
-}
+/* ---------- Tool Box ---------- */
 
 .glass{
-
-    width:380px;
-
+    width:420px;
     background:rgba(255,255,255,.06);
-
     border:1px solid rgba(255,255,255,.08);
-
     backdrop-filter:blur(30px);
-
     border-radius:30px;
-
     padding:35px;
-
     box-shadow:0 25px 60px rgba(0,0,0,.45);
-
-}
-
-.glass h3{
-
-    margin-bottom:25px;
-
-    font-size:24px;
-
 }
 
 .tool{
-
     padding:18px;
-
     margin-top:14px;
-
     background:rgba(255,255,255,.05);
-
     border-radius:15px;
-
     transition:.3s;
-
 }
 
 .tool:hover{
-
     transform:translateX(10px);
-
     background:rgba(79,140,255,.18);
-
 }
 
-/* ---------- Statistik ---------- */
+/* ---------- Cards ---------- */
 
 .cards{
-
     display:grid;
-
     grid-template-columns:repeat(3,1fr);
-
     gap:30px;
-
     padding:0 8% 120px;
-
 }
 
 .card{
-
     background:rgba(255,255,255,.05);
-
     border:1px solid rgba(255,255,255,.08);
-
     border-radius:30px;
-
     text-align:center;
-
     padding:45px;
-
-    transition:.3s;
-
 }
 
-.card:hover{
+/* ---------- TOOL PAGE (CHAT FIX) ---------- */
 
-    transform:translateY(-10px);
-
-    box-shadow:0 20px 40px rgba(0,0,0,.45);
-
+.toolPage{
+    padding:120px 8%;
 }
 
-.card h2{
-
-    font-size:48px;
-
-    margin-bottom:10px;
-
-    background:linear-gradient(90deg,#7ab6ff,#53ffe3);
-
-    -webkit-background-clip:text;
-
-    color:transparent;
-
+#chat{
+    background:rgba(255,255,255,0.05);
+    padding:20px;
+    border-radius:15px;
+    height:420px; /* 🔥 größer gemacht */
+    overflow:auto;
+    margin-bottom:18px;
+    font-size:16px;
 }
 
-.card p{
-
-    color:#b9bfd1;
-
+.msg{
+    margin:10px 0;
+    padding:12px;
+    border-radius:10px;
+    max-width:80%;
+    font-size:15px;
 }
 
-/* ---------- Handy ---------- */
+.user{
+    background:rgba(79,140,255,0.3);
+    margin-left:auto;
+}
 
-@media(max-width:950px){
+.bot{
+    background:rgba(255,255,255,0.1);
+}
+
+.inputBox{
+    display:flex;
+    gap:12px;
+}
+
+input{
+    flex:1;
+    padding:16px; /* 🔥 größer */
+    border-radius:12px;
+    border:none;
+    outline:none;
+    background:rgba(255,255,255,0.08);
+    color:white;
+    font-size:16px;
+}
+
+button{
+    padding:16px 22px; /* 🔥 größer */
+    border:none;
+    border-radius:12px;
+    background:linear-gradient(135deg,#4f8cff,#6a5cff);
+    color:white;
+    cursor:pointer;
+    font-size:16px;
+}
+
+/* ---------- MOBILE ---------- */
+
+@media(max-width:768px){
 
 .hero{
-
-flex-direction:column;
-padding-top:150px;
-text-align:center;
-
+    flex-direction:column;
+    padding-top:140px;
+    text-align:center;
 }
 
 .heroLeft,
 .heroRight{
-
-width:100%;
-
-}
-
-.buttons{
-
-justify-content:center;
-
+    width:100%;
 }
 
 .hero h1{
+    font-size:42px;
+}
 
-font-size:50px;
-
+.glass{
+    width:100%;
 }
 
 .cards{
-
-grid-template-columns:1fr;
-
+    grid-template-columns:1fr;
 }
 
 nav{
-
-display:none;
-
+    display:none;
 }
 
+/* Chat Mobile größer & cleaner */
+.toolPage{
+    padding:110px 5%;
 }
-@media (max-width: 768px){
 
-    .toolPage{
-        padding:100px 5%;
-    }
+#chat{
+    height:360px;
+}
 
-    #chat{
-        height:280px;
-    }
+.inputBox{
+    flex-direction:column;
+}
 
-    .inputBox{
-        flex-direction:column;
-    }
-
-    input{
-        width:100%;
-    }
-
-    button{
-        width:100%;
-    }
-
-    h1{
-        font-size:26px;
-    }
-
-    p{
-        font-size:14px;
-    }
+button{
+    width:100%;
+}
 }
