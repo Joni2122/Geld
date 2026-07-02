@@ -9,9 +9,11 @@ const tools = [
   { name: "Email Writer", icon: "📧", desc: "Schreibt E-Mails" }
 ];
 
+// Container
 const container = document.querySelector(".heroRight .glass");
-const searchInput = document.createElement("input");
 
+// Suche erstellen
+const searchInput = document.createElement("input");
 searchInput.placeholder = "Tools suchen...";
 searchInput.style = `
   width:100%;
@@ -26,12 +28,14 @@ searchInput.style = `
 
 container.prepend(searchInput);
 
+// Tools rendern
 function renderTools(filter = "") {
-  container.querySelectorAll(".tool").forEach(t => t.remove());
+  container.querySelectorAll(".tool").forEach(el => el.remove());
 
   tools
     .filter(t => t.name.toLowerCase().includes(filter.toLowerCase()))
     .forEach(tool => {
+
       const div = document.createElement("div");
       div.classList.add("tool");
 
@@ -45,16 +49,20 @@ function renderTools(filter = "") {
         </div>
       `;
 
+      // Klick → neue Seite
       div.addEventListener("click", () => {
-        alert("Du hast geöffnet: " + tool.name);
+        window.location.href =
+          `tool.html?name=${encodeURIComponent(tool.name)}&desc=${encodeURIComponent(tool.desc)}`;
       });
 
       container.appendChild(div);
     });
 }
 
+// Suche
 searchInput.addEventListener("input", e => {
   renderTools(e.target.value);
 });
 
+// Start
 renderTools();
