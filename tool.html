@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>AI Tool</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="background">
+    <div class="blur one"></div>
+    <div class="blur two"></div>
+</div>
+
+<header>
+    <div class="logo">AI<span>.</span></div>
+    <nav>
+        <a href="index.html">Back</a>
+    </nav>
+</header>
+
+<div class="toolPage">
+
+    <h1 id="toolName">Tool</h1>
+
+    <p id="toolDesc">Beschreibung</p>
+
+    <div id="toolBox"></div>
+
+</div>
+
+<script>
+const params = new URLSearchParams(window.location.search);
+
+const name = params.get("name");
+const desc = params.get("desc");
+
+document.getElementById("toolName").innerText = name;
+document.getElementById("toolDesc").innerText = desc;
+
+// Beispiel Tool UI (Chat)
+document.getElementById("toolBox").innerHTML = `
+    <textarea placeholder="Schreib etwas..."></textarea>
+    <button>Ausführen</button>
+`;
+</script>
+
+</body>
+</html>
